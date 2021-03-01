@@ -30,7 +30,7 @@ get_data <- function(resource_id){
     records <- unlist(results$records, recursive = FALSE)
     
     parse <- function(field) {
-      records[names(records) == field]
+      unlist(records[names(records) == field], use.names = FALSE)
     }
     
     data <- sapply(fields, parse) %>% as.data.frame()
