@@ -1,3 +1,7 @@
+## Update existing lookup
+lookup <- read.csv("scripts/data/resource_lookup.csv")
+saveRDS(lookup, "scripts/data/resource_lookup.RDS")
+
 ## This script will prepare the urls for the open data functions
 
 url<-"https://www.opendata.nhs.scot/dataset/weekly-covid-19-statistical-data-in-scotland"

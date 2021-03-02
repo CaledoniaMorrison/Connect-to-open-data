@@ -16,27 +16,13 @@ get_data <- function(resource_id){
     http_main <- paste0("https://www.opendata.nhs.scot/api/3/action/",
                         "datastore_search?resource_id=", resource_id)
     
+    n_records <- read_json(http_main)$result$total
+    
+    http_main <- paste0("https://www.opendata.nhs.scot/api/3/action/",
+                        "datastore_search?limit=", n_records, 
+                        "&resource_id=", resource_id)
+    
     ## read json
-    json_file <- read_json(http_main)
-    results<- json_file$result
+    fromJSON(http_main, simplifyDataFrame = TRUE)
     
-    # parse json
-    
-    #fields
-    fields <- unlist(results$fields, use.names = TRUE)
-    fields <- fields[names(fields) == "id"]
-    
-    # records
-    records <- unlist(results$records, recursive = FALSE)
-    
-    parse <- function(field) {
-      unlist(records[names(records) == field], use.names = FALSE)
-    }
-    
-    data <- sapply(fields, parse) %>% as.data.frame()
-    names(data) <- fields
-    row.names(data) <- as.character(1:nrow(data))
-    
-    data
-  
   }
